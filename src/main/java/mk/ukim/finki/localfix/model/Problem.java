@@ -37,6 +37,9 @@ public class Problem {
     private String cause;
 
     @ManyToOne
+    private Institution institution;
+
+    @ManyToOne
     private User reportedBy;
 
     @ManyToOne
