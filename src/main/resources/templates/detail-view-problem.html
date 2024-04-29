@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+   
+        <p th:text="${problem.title}"></p>
+  
+        
+        <span>Person: </span> &nbsp; <p th:text="${reportedBy.person.getUsername()}"></p>
+        
+        <span>Institution </span>&nbsp; <p th:text="${problem.institution.getName()}"></p>
+        
+        <p th:text="${problem.description}"></p>
+        
+        <img th:src="'data:image/png;base64,' + ${image}">
+    
+    <a href="/problems">Go back</a>
+
+    </div>
+</body>
+</html>

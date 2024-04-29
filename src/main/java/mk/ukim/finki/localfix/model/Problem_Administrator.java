@@ -15,7 +15,16 @@ public class Problem_Administrator {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long administratorId;
 
-    private Long problemId;
+    @ManyToOne
+    private Problem problem;
+
+    @ManyToOne
+    private Administrator administrator;
+
+    public Problem_Administrator(Administrator administrator, Problem problem) {
+        this.administrator = administrator;
+        this.problem = problem;
+
+    }
 }

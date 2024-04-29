@@ -5,6 +5,8 @@ import lombok.*;
 import mk.ukim.finki.localfix.model.enums.Impact;
 import mk.ukim.finki.localfix.model.enums.Status;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -18,6 +20,8 @@ public class Problem {
     private Long id;
 
     private String title;
+
+    private String address;
 
     private String description;
 
@@ -44,4 +48,22 @@ public class Problem {
 
     @ManyToOne
     private City city;
+
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
+    List<Problem_Administrator> problemAdministratorList;
+
+
+    public Problem(String title, String description, byte[] photo,
+                   Institution institution, User reportedBy,Impact impact,City city, String address) {
+
+        this.title = title;
+        this.description = description;
+        this.photo = photo;
+        this.institution = institution;
+        this.reportedBy = reportedBy;
+        this.city = city;
+        this.address = address;
+        this.impact = impact;
+
+    }
 }

@@ -3,6 +3,15 @@ VALUES ('1', 'Macedonia');
 
 INSERT INTO public.city (id, name, country_id)
 VALUES ('1', 'Skopje', '1');
+VALUES ('2','Bitola', '1');
+
+
+select * from problem;
+select * from problem_administrator;
+select * from person_admin;
+select * from city;
+
+
 
 INSERT INTO public.institution(id, name)
 VALUES ('1', 'Ministry of Interior Affairs'),

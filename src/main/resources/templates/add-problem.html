@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <form method="POST" th:if="${problem != null}" th:action="@{'/problem/add/{id}' (id=${problem?.getId()})}"  enctype="multipart/form-data">
+
+       <label> Name: <br>
+           <input type="text" name="title" th:value="${problem?.title}" required>
+       </label> <br>
+
+        <label> Address: <br>
+            <input type="text" name="address" th:value="${problem?.address}" required>
+        </label> <br>
+
+        <label> Choose institution: <br>
+            <select name="institutionId">
+                <option th:each="institution : ${institutions} " th:value="${institution.getId()}"
+                        th:selected="${institution.getId() == institution.id}"
+                        th:text="${institution.getName()}"
+                ></option>
+            </select>
+        </label>
+        <label> Description: <br>
+            <input type="text" name="description" th:value="${problem?.description}" required>
+        </label> <br>
+
+
+            <label> Image: <br>
+                <input type="file" name="image">
+            </label> <br>
+
+
+        <div th:if="${problem != null}">
+            <label> Status: <br>
+                <select name="status" required>
+                    <option th:each="status : ${status}" th:value="${status}"
+                    th:text="${status}"></option>
+                </select>
+            </label> <br>
+            <label> Impact: <br>
+                <select name="impact" required>
+                    <option th:each="impact : ${impact}" th:value="${impact}"
+                            th:text="${impact}"></option>
+                </select>
+
+            </label> <br>
+        </div>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <form method="post" th:unless="${problem != null}" th:action="@{'/problem/add'}" enctype="multipart/form-data">
+        <label> Name: <br>
+            <input type="text" name="title" th:value="${problem?.title}" required>
+        </label> <br>
+
+        <label>Address <br/>
+            <input type="text" name="address" th:value="${problem?.address}" required>
+        </label> <br>
+
+        <label> Choose institution: <br>
+            <select name="institutionId">
+                <option th:each="institution : ${institutions} " th:value="${institution.getId()}"
+                        th:selected="${institution.getId() == institution.id}"
+                        th:text="${institution.getName()}"
+                ></option>
+            </select>
+        </label><br>
+        <label> Description: <br>
+            <input type="text" name="description" th:value="${problem?.description}" required>
+        </label>
+
+        <label> Image: <br>
+            <input type="file" name="image" th:if="${problem == null}" required>
+            <!--<input type="file" name="image" th:unless="${problem?.getId() == null}">-->
+        </label> <br>
+
+        <div th:if="${problem == null}">
+            <!--<label> Status: <br>
+                <select name="status" required>
+                    <option th:each="status : ${status}" th:value="${status}"
+                            th:text="${status}"></option>
+                </select>
+            </label> <br>-->
+            <label> Impact: <br>
+                <select name="impact" required>
+                    <option th:each="impact : ${impact}" th:value="${impact}"
+                            th:text="${impact}"></option>
+                </select>
+
+            </label> <br>
+            <label> City: <br>
+                <select name="cityId" required>
+                    <option th:each="city : ${cities}"
+                            th:value="${city.id}"
+                            th:text="${city.name}"
+                    ></option>
+                </select>
+            </label>
+        </div>
+
+        <div>
+
+        </div>
+
+        <button type="submit">Report</button>
+    </form>
+</div>
+</body>
+</html>

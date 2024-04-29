@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+
+        <form action="/problems" method="get">
+            <label> List all problems by city name: &nbsp &nbsp;
+                <select name="cityId">
+                    <option th:each="city: ${cities}"
+                            th:value="${city.id}"
+                            th:text="${city.name}"
+                    ></option>
+                </select>
+            </label>
+            <button type="submit">List solved problems by city</button>
+        </form>
+    </div>
+
+    <div>
+        <th:block th:each="problem : ${problems}">
+            <p th:text="${problem.title}"></p>
+
+            <div th:if="${administrator} != null">
+                <p><a th:href="@{'/problem/administrator/edit/{id}' (id=${problem.getId()})}">Edit and set status to a problem</a></p>
+                <p style="color: red" th:if="${problemNotPublished != null and problem.id == problemNotPublishedId}" th:text="${problemNotPublished}"></p>
+            </div>
+            <form th:if="${administrator} != null" method="post" th:action="@{'/problem/administrator/delete/{id}' (id=${problem.getId()})}">
+                <button type="submit">Delete</button>
+            </form>
+
+            <p><a th:href="@{'/problem/detailed/view/{id}' (id=${problem.getId()})}">Details </a></p>
+
+            <form method="post" th:action="@{'/publish/problem/{problemId}' (problemId=${problem.id})}"
+            th:if="${administrator} != null">
+                <button type="submit">Publish problem</button>
+                <p style="color: red" th:if="${problemAlreadyPublished != null and problemAlreadyPublishedId
+                == problem.id}" th:text="${problemAlreadyPublished}"></p>
+            </form>
+        </th:block>
+        <br>
+        <a th:if="${reportedBy != null}" th:href="@{/problem/add}">Create problem</a>
+
+    </div>
+</body>
+</html>

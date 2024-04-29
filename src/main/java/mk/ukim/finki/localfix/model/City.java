@@ -3,6 +3,8 @@ package mk.ukim.finki.localfix.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -19,4 +21,8 @@ public class City {
 
     @ManyToOne
     private Country country;
+
+    @OneToMany(mappedBy = "city")
+    private List<Problem> problemList;
+
 }
