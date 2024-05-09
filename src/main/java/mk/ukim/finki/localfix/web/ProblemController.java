@@ -2,6 +2,7 @@ package mk.ukim.finki.localfix.web;
 
 import mk.ukim.finki.localfix.model.*;
 import mk.ukim.finki.localfix.model.enums.Impact;
+import mk.ukim.finki.localfix.model.enums.Role;
 import mk.ukim.finki.localfix.model.enums.Status;
 import mk.ukim.finki.localfix.repository.ProblemAdministratorRepository;
 import mk.ukim.finki.localfix.service.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -33,34 +35,41 @@ public class ProblemController {
     private final UserService userService;
     private final CityService cityService;
     private final ProblemAdministratorRepository problemAdministratorRepository;
+    private final PersonService personService;
 
 
     public ProblemController(ProblemService problemService,
                              InstitutionService institutionService,
                              UserService userService,
                              CityService cityService,
-                             ProblemAdministratorRepository problemAdministratorRepository
-                             ) {
+                             ProblemAdministratorRepository problemAdministratorRepository,
+                             PersonService personService) {
 
         this.problemService = problemService;
         this.institutionService = institutionService;
         this.userService = userService;
         this.cityService = cityService;
         this.problemAdministratorRepository = problemAdministratorRepository;
+        this.personService = personService;
     }
 
 
     /*ListProblems - ALL or By User, pagination*/
     @GetMapping("/problems")
-    public String listProblemsPage(Model model, @RequestParam(required = false) Long cityId){
+    public String listProblemsPage(Model model, @RequestParam(required = false) Long cityId, HttpServletRequest request){
 
         List<Problem> problemList = new ArrayList<>();
         List<City> cityList = this.cityService.listAllCities();
 
-        User reportedBy;
+        String username = request.getRemoteUser();
+        Person loggedPerson = personService.findByUsername(username);
+        if(loggedPerson.getRole().equals(Role.ROLE_ADMIN)){
+            return "redirect:/problems/administrator";
+        }
+        User reportedBy = this.userService.findUserByPerson(loggedPerson);
 
         if (cityId == null) {
-             reportedBy = this.userService.findUserById(1L);
+             //reportedBy = this.userService.findUserByPerson(loggedPerson);
 
             if (reportedBy != null) {
                 problemList = reportedBy.getProblems();
@@ -83,9 +92,10 @@ public class ProblemController {
         /*Filters - Examples(City, Status)*/
 
         else{
-            reportedBy = this.userService.findUserById(1L);
-            problemList = this.problemService.listAllProblemsByCityIdAndStatus(cityId,Status.SOLVED) ;
+            //reportedBy = this.userService.findUserById(1L);
+            problemList = this.problemService.listAllProblemsByCityIdAndStatus(cityId,Status.SOLVED, reportedBy) ;
         }
+        model.addAttribute("person", username);
         model.addAttribute("reportedBy",reportedBy);
         model.addAttribute("problems", problemList);
         model.addAttribute("cities", cityList);
@@ -95,7 +105,9 @@ public class ProblemController {
 
     /*AddProblem*/
     @GetMapping ("/problem/add")
-    public String addProblemPage(Model model){
+    public String addProblemPage(Model model, HttpServletRequest request){
+        String username = request.getRemoteUser();
+        model.addAttribute("person", username);
 
         model.addAttribute("status",Status.values());
 
@@ -111,14 +123,21 @@ public class ProblemController {
     public String createProblem(@RequestParam String title, @RequestParam String description,
                                 @RequestParam("image") MultipartFile file, @RequestParam Long institutionId,
                                 @RequestParam Impact impact,
-                                @RequestParam Long cityId,@RequestParam String address
-                                ){
+                                @RequestParam Long cityId,@RequestParam String address,
+                                HttpServletRequest request){
 
 
         byte [] photo = this.problemService.readImageBytes(file);
 
+        String username = request.getRemoteUser();
+        Person loggedPerson = personService.findByUsername(username);
+        if(loggedPerson.getRole().equals(Role.ROLE_ADMIN)){
+            return "redirect:/problems/administrator";
+        }
+        User reportedBy = this.userService.findUserByPerson(loggedPerson);
 
-        this.problemService.saveProblem(title, description, photo, institutionId,cityId,impact,address);
+
+        this.problemService.saveProblem(title, description, photo, institutionId,cityId,impact,address, reportedBy.getId());
 
 
         return "redirect:/problems";
@@ -126,10 +145,13 @@ public class ProblemController {
 
     /*ProblemDetails*/
     @GetMapping("/problem/detailed/view/{id}")
-    public String detailedView(@PathVariable Long id, Model model){
+    public String detailedView(@PathVariable Long id, Model model, HttpServletRequest request){
+        String username = request.getRemoteUser();
+        model.addAttribute("person", username);
 
         Problem problem = this.problemService.findProblemById(id);
-        User reportedBy = this.userService.findUserById(1L);
+
+        User reportedBy = this.userService.findById(problem.getReportedBy().getId());
 
         byte [] imageData = problem.getPhoto();
 

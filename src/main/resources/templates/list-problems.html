@@ -5,14 +5,20 @@
     <title>Title</title>
 </head>
 <body>
+<header>
+    <span th:text="${person}"></span>
+    <a href="/person/logout">Logout</a>
+</header>
     <div>
 
         <form action="/problems" method="get">
             <label> List all problems by city name: &nbsp &nbsp;
                 <select name="cityId">
+                    <option value="">--</option>
                     <option th:each="city: ${cities}"
                             th:value="${city.id}"
                             th:text="${city.name}"
+                            th:selected="${param.cityId != null && #strings.equals(#request.getParameter('cityId'), #strings.toString(city.id))}"
                     ></option>
                 </select>
             </label>

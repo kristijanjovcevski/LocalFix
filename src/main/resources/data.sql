@@ -21,7 +21,7 @@ VALUES ('1', 'Ministry of Interior Affairs'),
        ('5', 'Ministry of Culture'),
        ('6', 'Park and Greenery');
 
-INSERT INTO public.person(id, mail, password, username)
+/*INSERT INTO public.person(id, email, password, username)
 VALUES ('1', 'admin@mail.com', 'Admin=1', 'Admin'),
        ('2', 'filip@mail.com', '123', 'Filip Kraljevski');
 
@@ -29,4 +29,4 @@ INSERT INTO public.person_admin(id, person_id)
 VALUES ('1', '1');
 
 INSERT INTO public.person_users(id, person_id)
-VALUES ('1', '2');
+VALUES ('1', '2');*/

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" th:href="@{/images/icons/logo-full.svg}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/util.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        /* Custom style for the second title */
+        .small-title {
+            font-size: 14px; /* Adjust font size as needed */
+            margin-top: 10px; /* Adjust margin top as needed */
+        }
+    </style>
+</head>
+<body>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <form class="login100-form validate-form" method="post" action="/person/register">
+                <span class="login100-form-title p-b-43">
+                    Register
+					<span style="color: gray" class="login100-form-title p-b-20 small-title">
+                    Please complete to create your account.
+                                <h1 th:if="${hasError}" th:text="${error}"></h1>
+                </span>
+                </span>
+
+
+
+                <!--<div class="row">
+                    <div class="col-md-6">
+                        <div class="wrap-input100 validate-input" data-validate="Valid username is required: Nami">
+                            <input class="input100" type="text" name="username">
+                            <span class="focus-input100"></span>
+                            <span class="label-input100">Username</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="wrap-input100 validate-input" data-validate="Valid surname is required: Namios">
+                            <input class="input100" type="password" name="surname">
+                            <span class="focus-input100"></span>
+                            <span class="label-input100">Last Name</span>
+                        </div>
+                    </div>
+                </div>-->
+
+                <div class="wrap-input100 validate-input" data-validate="Valid username is required: Nami">
+                    <input class="input100" type="text" name="username" required>
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">Username</span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                    <input class="input100" type="email" name="email" required>
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">Email</span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate = "Valid password is required: Example123@.">
+                    <input class="input100" type="password" name="password" required>
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">Password</span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate = "Valid password is required: Example123@.">
+                    <input class="input100" type="password" name="confirmPassword" required>
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">Confirm Password</span>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="agree" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        I agree to all statements included in terms of service.
+                    </label>
+                </div>
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn" type="submit">
+                        Sign up
+                    </button>
+                </div>
+
+                <div class="text-center p-t-46 p-b-20">
+                    <span class="txt2">
+                        Already a member? <a href="/person/login">Sign in here</a>.
+                    </span>
+                </div>
+
+            </form>
+
+            <img class="login100-more" th:src="@{/images/register-form-banner.png}" alt="register-form-banner.png">
+
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p class="nesto">LocalFix 2024 ©</p>
+</div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

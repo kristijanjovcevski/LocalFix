@@ -1,6 +1,6 @@
 package mk.ukim.finki.localfix.service.impl;
 
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import mk.ukim.finki.localfix.model.Problem_Administrator;
 import mk.ukim.finki.localfix.repository.ProblemAdministratorRepository;
 import mk.ukim.finki.localfix.repository.ProblemRepository;

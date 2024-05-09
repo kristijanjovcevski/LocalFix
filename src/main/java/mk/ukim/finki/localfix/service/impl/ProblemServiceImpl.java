@@ -1,7 +1,7 @@
 package mk.ukim.finki.localfix.service.impl;
 
 
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import mk.ukim.finki.localfix.model.City;
 import mk.ukim.finki.localfix.model.Institution;
 import mk.ukim.finki.localfix.model.Problem;
@@ -60,11 +60,11 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public Optional<Problem> saveProblem(String title, String description, byte[] photo,
-                                         Long institutionId, Long cityId,Impact impact,String address
+                                         Long institutionId, Long cityId,Impact impact,String address, Long userId
                                          ) {
 
-        User reportedBy = this.userRepository.findById(1L).orElseThrow(() ->
-                new UserNotFoundException(1L));
+        User reportedBy = this.userRepository.findById(userId).orElseThrow(() ->
+                new UserNotFoundException(userId));
 
         Institution institution = this.institutionRepository.findById(institutionId).orElseThrow(() ->
                 new InstitutionNotFoundException(institutionId));
@@ -118,9 +118,9 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Transactional
     @Override
-    public List<Problem> listAllProblemsByCityIdAndStatus(Long id,Status status) {
+    public List<Problem> listAllProblemsByCityIdAndStatus(Long id,Status status, User user) {
         if (id != null && status != null){
-            return this.problemRepository.findAllByCityIdAndStatus(id,status);
+            return this.problemRepository.findAllByCityIdAndStatusAndReportedBy(id,status, user);
         }
         return this.listAllProblems();
     }

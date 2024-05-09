@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" th:href="@{/images/icons/logo-full.svg}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/util.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <form class="login100-form validate-form" method="post" action="/person/login">
+                    <span class="login100-form-title p-b-43">
+                        Sign in
+                    </span>
+
+
+                <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                    <input class="input100" type="email" name="username">
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">Email</span>
+                </div>
+
+
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <input class="input100" type="password" name="password">
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">Password</span>
+                </div>
+
+                <div class="flex-sb-m w-full p-t-3 p-b-32">
+                    <!--<div class="contact100-form-checkbox">
+                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                        <label class="label-checkbox100" for="ckb1">
+                            Remember me
+                        </label>
+                    </div>-->
+
+                    <!--<div>
+                        <a href="#" class="txt1">
+                            Forgot Password?
+                        </a>
+                    </div>-->
+                </div>
+
+
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn" type="submit">
+                        Login
+                    </button>
+                </div>
+
+                <div class="text-center p-t-46 p-b-20">
+                        <span class="txt2">
+                            Not a member? <a href="/person/register">Sign up here</a>.
+                        </span>
+                </div>
+
+
+            </form>
+
+            <img class="login100-more" th:src="@{/images/register-form-banner.png}" alt="register-form-banner.png">
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p class="nesto">LocalFix 2024 ©</p>
+</div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

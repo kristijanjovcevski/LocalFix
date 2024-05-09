@@ -1,6 +1,6 @@
 package mk.ukim.finki.localfix.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 import mk.ukim.finki.localfix.model.enums.Impact;
 import mk.ukim.finki.localfix.model.enums.Status;

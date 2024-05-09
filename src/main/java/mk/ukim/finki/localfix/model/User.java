@@ -1,8 +1,8 @@
 package mk.ukim.finki.localfix.model;
 
-import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -22,6 +22,10 @@ public class User {
 
     @OneToMany(mappedBy = "reportedBy",fetch = FetchType.EAGER)
     private List<Problem> problems;
+
+    public User(Person person) {
+        this.person = person;
+    }
 
     @Override
     public String toString() {

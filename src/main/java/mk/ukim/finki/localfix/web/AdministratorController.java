@@ -1,15 +1,13 @@
 package mk.ukim.finki.localfix.web;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import mk.ukim.finki.localfix.model.Administrator;
+import mk.ukim.finki.localfix.model.Person;
 import mk.ukim.finki.localfix.model.Problem;
 import mk.ukim.finki.localfix.model.Problem_Administrator;
 import mk.ukim.finki.localfix.model.enums.Impact;
 import mk.ukim.finki.localfix.model.enums.Status;
-import mk.ukim.finki.localfix.service.AdministratorService;
-import mk.ukim.finki.localfix.service.InstitutionService;
-import mk.ukim.finki.localfix.service.ProblemAdministratorService;
-import mk.ukim.finki.localfix.service.ProblemService;
+import mk.ukim.finki.localfix.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,15 +26,17 @@ public class AdministratorController {
     private final AdministratorService administratorService;
     private final ProblemAdministratorService problemAdministratorService;
     private final InstitutionService institutionService;
+    private final PersonService personService;
 
     public AdministratorController(ProblemService problemService,
                                    AdministratorService administratorService,
                                    ProblemAdministratorService problemAdministratorService,
-                                   InstitutionService institutionService) {
+                                   InstitutionService institutionService, PersonService personService) {
         this.problemService = problemService;
         this.administratorService = administratorService;
         this.problemAdministratorService = problemAdministratorService;
         this.institutionService = institutionService;
+        this.personService = personService;
     }
 
     /*lists all reported problems by all users */
@@ -45,7 +45,10 @@ public class AdministratorController {
 
         List<Problem> allProblems = this.problemService.listAllProblems();
         model.addAttribute("problems",allProblems);
-        Administrator administrator = this.administratorService.findById(1L);
+        String username = request.getRemoteUser();
+        model.addAttribute("person", username);
+        Person loggedPerson = personService.findByUsername(username);
+        Administrator administrator = this.administratorService.findByPerson(loggedPerson);
         model.addAttribute("administrator",administrator);
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
 
@@ -80,10 +83,11 @@ public class AdministratorController {
     /*publishes an issue from an administrator => creating object in problemAdministrator */
     @PostMapping("/publish/problem/{problemId}")
     public String publishProblem (@PathVariable Long problemId,
-                                  RedirectAttributes redirectAttributes){
+                                  RedirectAttributes redirectAttributes, HttpServletRequest request){
 
-        Administrator administrator = this.administratorService
-                .findById(1L);
+        String username = request.getRemoteUser();
+        Person loggedPerson = personService.findByUsername(username);
+        Administrator administrator = this.administratorService.findByPerson(loggedPerson);
 
         List<Problem_Administrator> problemAdministratorList = this.problemAdministratorService.listAllProblemAdministrators();
 
@@ -118,9 +122,12 @@ public class AdministratorController {
 
     /*gets edit Problem page for editing problem by administrator */
     @GetMapping("/problem/administrator/edit/{id}")
-    public String editProblemPage(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes){
+    public String editProblemPage(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request){
 
-        Administrator administrator = this.administratorService.findById(1L);
+        String username = request.getRemoteUser();
+        model.addAttribute("person", username);
+        Person loggedPerson = personService.findByUsername(username);
+        Administrator administrator = this.administratorService.findByPerson(loggedPerson);
 
         List<Problem_Administrator> problemAdministratorList = this.problemAdministratorService.listAllProblemAdministrators();
 
