@@ -10,6 +10,13 @@ select * from problem;
 select * from problem_administrator;
 select * from person_admin;
 select * from city;
+select * from country;
+select * from institution;
+select * from person;
+
+
+insert into institution(id,name)
+values ('1','Park and greenery');
 
 
 
@@ -21,12 +28,16 @@ VALUES ('1', 'Ministry of Interior Affairs'),
        ('5', 'Ministry of Culture'),
        ('6', 'Park and Greenery');
 
-/*INSERT INTO public.person(id, email, password, username)
-VALUES ('1', 'admin@mail.com', 'Admin=1', 'Admin'),
-       ('2', 'filip@mail.com', '123', 'Filip Kraljevski');
+
+
+
+INSERT INTO public.person(id, email, password, username,role)
+VALUES ('2', 'admin@mail.com', 'Admin=1', 'Admin','ROLE_ADMIN');
+       /*('2', 'filip@mail.com', '123', 'Filip Kraljevski');*/
+
 
 INSERT INTO public.person_admin(id, person_id)
-VALUES ('1', '1');
+VALUES ('1', '2');
 
 INSERT INTO public.person_users(id, person_id)
-VALUES ('1', '2');*/
+VALUES ('1', '2');

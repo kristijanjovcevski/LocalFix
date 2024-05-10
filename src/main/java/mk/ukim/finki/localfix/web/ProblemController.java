@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 /***
  * Functionalities:
@@ -107,6 +107,7 @@ public class ProblemController {
     @GetMapping ("/problem/add")
     public String addProblemPage(Model model, HttpServletRequest request){
         String username = request.getRemoteUser();
+
         model.addAttribute("person", username);
 
         model.addAttribute("status",Status.values());
@@ -117,15 +118,50 @@ public class ProblemController {
 
         model.addAttribute("cities", this.cityService.listAllCities());
 
+        Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+
+        if (inputFlashMap != null){
+            String invalidImageFormat = (String) inputFlashMap.get("invalidImageFormat");
+            String fileTooLarge = (String) inputFlashMap.get("fileTooLarge");
+
+            if (invalidImageFormat != null){
+                model.addAttribute("invalidImageFormat",invalidImageFormat);
+                model.addAttribute("fileTooLarge",fileTooLarge);
+            }
+        }
+
         return "add-problem";
     }
     @PostMapping("/problem/add")
     public String createProblem(@RequestParam String title, @RequestParam String description,
                                 @RequestParam("image") MultipartFile file, @RequestParam Long institutionId,
                                 @RequestParam Impact impact,
-                                @RequestParam Long cityId,@RequestParam String address,
-                                HttpServletRequest request){
+                                @RequestParam Long cityId, @RequestParam String address,
+                                HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
+
+        double fileSizeInMegabytes = (double) file.getSize() / (1024 * 1024);
+
+        if (fileSizeInMegabytes < 25) {
+
+            String fileName = file.getOriginalFilename();
+
+            String fileExtension = Optional.ofNullable(fileName)
+                    .map(name -> name.substring(name.lastIndexOf(".") + 1).toLowerCase())
+                    .orElse(null);
+
+            if (!"jpg".equals(fileExtension) && !"jpeg".equals(fileExtension) && !"png".equals(fileExtension) && !"webp".equals(fileExtension)
+                    && !"avif".equals(fileExtension)) {
+
+                redirectAttributes.addFlashAttribute("invalidImageFormat", "Invalid image format");
+                return "redirect:/problem/add";
+            }
+
+        }
+        else {
+            redirectAttributes.addFlashAttribute("fileTooLarge", "Uploaded image file size should be less than 25 MB");
+            return "redirect:/problem/add";
+        }
 
         byte [] photo = this.problemService.readImageBytes(file);
 
@@ -136,9 +172,7 @@ public class ProblemController {
         }
         User reportedBy = this.userService.findUserByPerson(loggedPerson);
 
-
         this.problemService.saveProblem(title, description, photo, institutionId,cityId,impact,address, reportedBy.getId());
-
 
         return "redirect:/problems";
     }
@@ -176,9 +210,36 @@ public class ProblemController {
                                 @RequestParam String description,
                                 @RequestParam Status status,
                                 @RequestParam Impact impact,
-                                @RequestParam Long institutionId){
+                                @RequestParam Long institutionId, RedirectAttributes redirectAttributes) {
+
+
+        double fileSizeInMegabytes = (double) file.getSize() / (1024 * 1024);
+
+        if (fileSizeInMegabytes < 25) {
+
+            String fileName = file.getOriginalFilename();
+
+            String fileExtension = Optional.ofNullable(fileName)
+                    .map(name -> name.substring(name.lastIndexOf(".") + 1).toLowerCase())
+                    .orElse(null);
+
+            if (!"jpg".equals(fileExtension) && !"jpeg".equals(fileExtension) && !"png".equals(fileExtension) && !"webp".equals(fileExtension)
+                    && !"avif".equals(fileExtension)) {
+
+                redirectAttributes.addFlashAttribute("invalidImageFormat", "Invalid image format");
+                return "redirect:/problem/add";
+            }
+
+        }
+        else {
+
+            redirectAttributes.addFlashAttribute("fileTooLarge", "Uploaded image file size should be less than 25 MB");
+            return "redirect:/problem/add";
+        }
+
 
         byte [] photo = this.problemService.readImageBytes(file);
+
         this.problemService.editProblem(id,title,address,photo,description,status,impact,institutionId);
 
         return "redirect:/problems";

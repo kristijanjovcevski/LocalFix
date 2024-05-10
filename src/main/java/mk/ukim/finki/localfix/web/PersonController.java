@@ -52,7 +52,7 @@ public class PersonController {
             this.personService.register(username, email, password, confirmPassword);
             return "redirect:/person/login";
         } catch (TermsOfServiceException | InvalidArgumentsException | PasswordsDoNotMatchException |
-        UsernameAlreadyExistsException exception) {
+        UsernameAlreadyExistsException | EmailAlreadyExistsException exception) {
             return "redirect:/person/register?error=" + exception.getMessage();
         }
     }

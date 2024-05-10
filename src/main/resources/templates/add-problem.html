@@ -10,6 +10,10 @@
     <a href="/person/logout">Logout</a>
 </header>
 <div>
+    <p th:if="${invalidImageFormat}" th:text="${#strings.toString(invalidImageFormat)}" style="color: yellow">fewfwfwt4e</p>
+
+    <p th:if="${fileTooLarge}" th:text="${fileTooLarge}"></p>
+
     <form method="POST" th:if="${problem != null}" th:action="@{'/problem/add/{id}' (id=${problem?.getId()})}"  enctype="multipart/form-data">
 
        <label> Name: <br>
@@ -35,7 +39,10 @@
 
             <label> Image: <br>
                 <input type="file" name="image">
+
             </label> <br>
+        <div th:text="${#strings.toString(invalidImageFormat)}" style="color: yellow">fewfwfwt4e</div>
+
 
 
         <div th:if="${problem != null}">
