@@ -1,0 +1,18 @@
+.navbar-nav .nav-item {
+    /*margin-right: 50px;*/
+    margin-left: 50px;
+}
+.navbar,
+.navbar * {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+.header::after {
+    content: '';
+    display: block;
+    height: 8px;
+    background-image: linear-gradient(to bottom, #a2a2a2, #ffffff); /* Gradient effect */
+    width: 100%;
+}
