@@ -1,7 +1,10 @@
 package mk.ukim.finki.localfix.service.impl;
 
 import javax.transaction.Transactional;
+
+import mk.ukim.finki.localfix.model.Problem;
 import mk.ukim.finki.localfix.model.Problem_Administrator;
+import mk.ukim.finki.localfix.model.enums.Status;
 import mk.ukim.finki.localfix.repository.ProblemAdministratorRepository;
 import mk.ukim.finki.localfix.repository.ProblemRepository;
 import mk.ukim.finki.localfix.service.ProblemAdministratorService;
@@ -38,9 +41,15 @@ public class ProblemAdministratorServiceImpl implements ProblemAdministratorServ
 
     @Override
     public Problem_Administrator create(Problem_Administrator problemAdministrator) {
-        return this.problemAdministratorRepository.save(
-                new Problem_Administrator(problemAdministrator.getAdministrator(),
-                        problemAdministrator.getProblem())
-        );
+        Problem problem = problemRepository.findById(problemAdministrator.getProblem().getId()).orElse(null);
+        if(problem != null){
+            problem.setStatus(Status.RECEIVED);
+            problemRepository.save(problem);
+            return this.problemAdministratorRepository.save(
+                    new Problem_Administrator(problemAdministrator.getAdministrator(),
+                            problemAdministrator.getProblem())
+            );
+        }
+        return null;
     }
 }

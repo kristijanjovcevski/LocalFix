@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -14,35 +14,41 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../static/css/about-us.css">
-    <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" th:href="@{/css/about-us.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
 </head>
 <body>
 <header class="header">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-white justify-content-between">
             <div class="container-fluid">
-                <a class="navbar-brand m-l-auto" href="#">
-                    <img src="../static/images/icons/logo.png" alt="Logo" style="height: 30px;">
+                <a class="navbar-brand m-l-auto" href="/">
+                    <img  th:src="@{/images/icons/logo.png}" alt="Logo" style="height: 30px;">
                 </a>
 
                 <div class="justify-content-center" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Home</a>
+                            <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Problems</a>
+                            <a class="nav-link" href="/problems">Problems</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Profile</a>
                         </li>
                     </ul>
                 </div>
-                <form class="d-flex">
+                <form class="d-flex" action="/person/logout" sec:authorize="isAuthenticated()">
                     <button class="btn" type="submit" style="background: white">
                         Sign out
-                        <img src="../static/images/icons/box-arrow-right.png" alt="Sign Out" style="height: 24px;">
+                        <img th:src="@{/images/icons/box-arrow-right.png}" alt="Sign Out" style="height: 24px;">
+                    </button>
+                </form>
+                <form class="d-flex" action="/person/login" sec:authorize="!isAuthenticated()">
+                    <button class="btn" type="submit" style="background: white">
+                        Sign in
+                        <img th:src="@{/images/icons/box-arrow-right.png}" alt="Sign In" style="height: 24px;">
                     </button>
                 </form>
             </div>
@@ -54,7 +60,7 @@
     <div class="about-us">
         <div class="row align-items-center">
             <div class="col">
-                <img src="../static/images/Group.png" class="img-fluid" alt="LocalFix Image">
+                <img th:src="@{/images/Group.png}" class="img-fluid" alt="LocalFix Image">
             </div>
             <div class="col text-center">
                 <h4>Connecting people, Solving problems</h4>

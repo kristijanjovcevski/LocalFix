@@ -16,3 +16,10 @@
     background-image: linear-gradient(to bottom, #a2a2a2, #ffffff); /* Gradient effect */
     width: 100%;
 }
+footer {
+    color: #ffffff;
+    margin-top: auto;
+    background-color: #000000;
+    padding: 8px;
+    text-align: center;
+}

@@ -1,55 +1,335 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>LocalFix</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="keywords" content="SEO, Marketing, Web Development" />
+    <meta name="description" content="Seotech - Your trusted partner in SEO and Digital Marketing." />
+    <meta name="author" content="Seotech Team" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/responsive.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .header_section {
+            background-color: #343a40;
+            padding: 10px 0;
+        }
+
+        .navbar-brand span {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff;
+            margin-right: 20px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #f8f9fa;
+        }
+
+        .about_section {
+            padding: 60px 0;
+            /*background-color: #f9f9f9;*/
+        }
+
+        .about_section .heading_container h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .about_section p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .about_section a {
+            color: #007bff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .about_section a:hover {
+            text-decoration: underline;
+        }
+
+        .problem_list {
+            max-width: 800px;
+            margin: 10px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .problem_item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .footer_bg {
+            background-color: #343a40;
+            color: #fff;
+            padding: 40px 0;
+        }
+
+        .footer_bg .footer_container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer_bg .footer_container .footer_col {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .footer_bg .footer_container .footer_col h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .footer_bg .footer_container .footer_col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer_bg .footer_container .footer_col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer_bg .footer_container .footer_col ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer_bg .footer_container .footer_col ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .footer_bg .social-links a {
+            margin-right: 15px;
+            color: #fff;
+        }
+
+        .footer_bg .social-links a:hover {
+            color: #007bff;
+        }
+
+        .navbar-nav {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .footer_section {
+            background-color: black;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .pagination_buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .prev_button,
+        .next_button {
+            background-color: transparent;
+            color: #007bff; /* Setting the color to match the anchor link color */
+            border: none;
+            padding: 0; /* Adjust padding as needed */
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 20px; /* Adjust font size as needed */
+        }
+
+        .prev_button:hover,
+        .next_button:hover {
+            text-decoration: underline; /* Underline the button text on hover */
+        }
+
+        .page_numbers {
+            display: flex;
+        }
+
+        .page_number {
+            margin: 0 5px;
+            padding: 5px 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .page_number:hover {
+            background-color: #ccc;
+        }
+
+        .problem_item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px; /* Add margin to create space between each problem item */
+        }
+
+        .button_container {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center horizontally */
+            margin-bottom: 20px;
+        }
+
+        .add_button,
+        .search_button {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-right: 10px ;
+            margin-left: 10px;
+        }
+
+        .add_button:hover,
+        .search_button:hover {
+            background-color: #333;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+    </style>
 </head>
 <body>
-<header>
-    <span th:text="${person}"></span>
-    <a href="/person/logout">Logout</a>
-</header>
-    <div>
+<header class="header">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white justify-content-between">
+            <div class="container-fluid">
+                <a class="navbar-brand m-l-auto" href="/">
+                    <img  th:src="@{/images/icons/logo.png}" alt="Logo" style="height: 30px;">
+                </a>
 
-        <form action="/problems" method="get">
-            <label> List all problems by city name: &nbsp &nbsp;
-                <select name="cityId">
-                    <option value="">--</option>
-                    <option th:each="city: ${cities}"
-                            th:value="${city.id}"
-                            th:text="${city.name}"
-                            th:selected="${param.cityId != null && #strings.equals(#request.getParameter('cityId'), #strings.toString(city.id))}"
-                    ></option>
-                </select>
-            </label>
-            <button type="submit">List solved problems by city</button>
-        </form>
-    </div>
-
-    <div>
-        <th:block th:each="problem : ${problems}">
-            <p th:text="${problem.title}"></p>
-
-            <div th:if="${administrator} != null">
-                <p><a th:href="@{'/problem/administrator/edit/{id}' (id=${problem.getId()})}">Edit and set status to a problem</a></p>
-                <p style="color: red" th:if="${problemNotPublished != null and problem.id == problemNotPublishedId}" th:text="${problemNotPublished}"></p>
+                <div class="justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/problems">Problems</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" th:text="${person}">Profile</a>
+                        </li>
+                    </ul>
+                </div>
+                <form class="d-flex" action="/person/logout" sec:authorize="isAuthenticated()">
+                    <button class="btn" type="submit" style="background: white">
+                        Sign out
+                        <img th:src="@{/images/icons/box-arrow-right.png}" alt="Sign Out" style="height: 24px;">
+                    </button>
+                </form>
+                <form class="d-flex" action="/person/login" sec:authorize="!isAuthenticated()">
+                    <button class="btn" type="submit" style="background: white">
+                        Sign in
+                        <img th:src="@{/images/icons/box-arrow-right.png}" alt="Sign In" style="height: 24px;">
+                    </button>
+                </form>
             </div>
-            <form th:if="${administrator} != null" method="post" th:action="@{'/problem/administrator/delete/{id}' (id=${problem.getId()})}">
-                <button type="submit">Delete</button>
-            </form>
-
-            <p><a th:href="@{'/problem/detailed/view/{id}' (id=${problem.getId()})}">Details </a></p>
-
-            <form method="post" th:action="@{'/publish/problem/{problemId}' (problemId=${problem.id})}"
-            th:if="${administrator} != null">
-                <button type="submit">Publish problem</button>
-                <p style="color: red" th:if="${problemAlreadyPublished != null and problemAlreadyPublishedId
-                == problem.id}" th:text="${problemAlreadyPublished}"></p>
-            </form>
-        </th:block>
-        <br>
-        <a th:if="${reportedBy != null}" th:href="@{/problem/add}">Create problem</a>
+        </nav>
 
     </div>
+</header>
+<!-- about section -->
+<section class="about_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="button_container">
+                    <a class="add_button" style="text-decoration: none; color: white" th:if="${reportedBy != null}" th:href="@{/problem/add}">Create problem</a>
+                    <form action="/problems" method="get">
+                        <label> List problems by city: &nbsp &nbsp;
+                            <select name="cityId">
+                                <option value="">--</option>
+                                <option th:each="city: ${cities}"
+                                        th:value="${city.id}"
+                                        th:text="${city.name}"
+                                        th:selected="${param.cityId != null && #strings.equals(#request.getParameter('cityId'), #strings.toString(city.id))}"
+                                ></option>
+                            </select>
+                        </label>
+                        <button class="search_button" type="submit">Find</button>
+                    </form>
+                </div>
+
+                <th:block th:each="problem : ${problems}">
+                    <div class="problem_list">
+                        <div class="problem_item">
+                            <span th:text="${problem.title}"></span>
+                            <a th:href="@{'/problem/detailed/view/{id}' (id=${problem.getId()})}">View Details</a>
+                            <div th:if="${administrator} != null">
+                                <span><a th:href="@{'/problem/administrator/edit/{id}' (id=${problem.getId()})}">Edit and set status to a problem</a></span>
+                                <p style="color: red" th:if="${problemNotPublished != null and problem.id == problemNotPublishedId}" th:text="${problemNotPublished}"></p>
+                            </div>
+                            <form th:if="${administrator} != null" method="post" th:action="@{'/problem/administrator/delete/{id}' (id=${problem.getId()})}">
+                                <button type="submit">Delete</button>
+                            </form>
+                            <form method="post" th:action="@{'/publish/problem/{problemId}' (problemId=${problem.id})}"
+                                  th:if="${administrator} != null and ${problem.status} == null">
+                                <button type="submit">Publish problem</button>
+                                <p style="color: red" th:if="${problemAlreadyPublished != null and problemAlreadyPublishedId
+                == problem.id}" th:text="${problemAlreadyPublished}"></p>
+                            </form>
+                        </div>
+                    </div>
+                </th:block>
+
+                <!-- Pagination buttons -->
+                <div class="pagination_buttons">
+                    <button class="prev_button">&lt;</button> <!-- Changed content from "< Previous" to "<" -->
+                    <div class="page_numbers">
+                        <span class="page_number">1</span>
+                        <!-- Add more page numbers dynamically based on total pages -->
+                    </div>
+                    <button class="next_button">&gt;</button> <!-- Changed content from "Next >" to ">" -->
+                </div>
+                <!-- End pagination buttons -->
+
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+    LocalFix &copy;
+</footer>
 </body>
 </html>

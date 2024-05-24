@@ -72,7 +72,7 @@ public class ProblemController {
              //reportedBy = this.userService.findUserByPerson(loggedPerson);
 
             if (reportedBy != null) {
-                problemList = reportedBy.getProblems();
+                problemList = problemService.listAllProblemsByCityIdAndStatus(null, Status.SOLVED, reportedBy);
             }
             else {
                 // listing all problems published by administrators
@@ -206,14 +206,14 @@ public class ProblemController {
     @PostMapping("/problem/add/{id}")
     public String updateProblem(@PathVariable Long id,@RequestParam String title,
                                 @RequestParam String address,
-                                @RequestParam(required = false,name = "image") MultipartFile file,
+                                //@RequestParam(required = false,name = "image") MultipartFile file,
                                 @RequestParam String description,
                                 @RequestParam Status status,
                                 @RequestParam Impact impact,
                                 @RequestParam Long institutionId, RedirectAttributes redirectAttributes) {
 
 
-        double fileSizeInMegabytes = (double) file.getSize() / (1024 * 1024);
+        /*double fileSizeInMegabytes = (double) file.getSize() / (1024 * 1024);
 
         if (fileSizeInMegabytes < 25) {
 
@@ -238,9 +238,9 @@ public class ProblemController {
         }
 
 
-        byte [] photo = this.problemService.readImageBytes(file);
+        byte [] photo = this.problemService.readImageBytes(file);*/
 
-        this.problemService.editProblem(id,title,address,photo,description,status,impact,institutionId);
+        this.problemService.editProblem(id,title,address,null,description,status,impact,institutionId);
 
         return "redirect:/problems";
 

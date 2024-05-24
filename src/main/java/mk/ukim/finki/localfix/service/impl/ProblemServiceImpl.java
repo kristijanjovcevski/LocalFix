@@ -95,9 +95,6 @@ public class ProblemServiceImpl implements ProblemService {
         problem.setTitle(title);
         problem.setAddress(address);
         problem.setDescription(description);
-        if (photo.length != 0){
-            problem.setPhoto(photo);
-        }
 
         problem.setStatus(status);
         problem.setImpact(impact);
@@ -122,7 +119,7 @@ public class ProblemServiceImpl implements ProblemService {
         if (id != null && status != null){
             return this.problemRepository.findAllByCityIdAndStatusAndReportedBy(id,status, user);
         }
-        return this.listAllProblems();
+        return this.problemRepository.findAllByStatusAndReportedBy(status, user);
     }
 
     @Override

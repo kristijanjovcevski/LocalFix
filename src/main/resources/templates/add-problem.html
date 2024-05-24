@@ -36,11 +36,6 @@
             <input type="text" name="description" th:value="${problem?.description}" required>
         </label> <br>
 
-
-            <label> Image: <br>
-                <input type="file" name="image">
-
-            </label> <br>
         <div th:text="${#strings.toString(invalidImageFormat)}" style="color: yellow">fewfwfwt4e</div>
 
 
@@ -49,7 +44,7 @@
             <label> Status: <br>
                 <select name="status" required>
                     <option th:each="status : ${status}" th:value="${status}"
-                    th:text="${status}"></option>
+                    th:text="${status}" th:selected="${status} == ${problem.status}"></option>
                 </select>
             </label> <br>
             <label> Impact: <br>
