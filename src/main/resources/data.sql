@@ -35,9 +35,20 @@ INSERT INTO public.person(id, email, password, username,role)
 VALUES ('2', 'admin@mail.com', 'Admin=1', 'Admin','ROLE_ADMIN');
        /*('2', 'filip@mail.com', '123', 'Filip Kraljevski');*/
 
+INSERT INTO public.person(id,email,password,username,role)
+values ('3','ivan@mail.com','Admin=2','Admin123','ROLE_ADMIN');
+
 
 INSERT INTO public.person_admin(id, person_id)
 VALUES ('1', '2');
 
+
+
 INSERT INTO public.person_users(id, person_id)
 VALUES ('1', '2');
+
+
+
+
+
+

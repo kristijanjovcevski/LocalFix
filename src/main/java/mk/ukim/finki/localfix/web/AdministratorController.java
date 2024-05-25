@@ -1,10 +1,6 @@
 package mk.ukim.finki.localfix.web;
 
-import javax.servlet.http.HttpServletRequest;
-import mk.ukim.finki.localfix.model.Administrator;
-import mk.ukim.finki.localfix.model.Person;
-import mk.ukim.finki.localfix.model.Problem;
-import mk.ukim.finki.localfix.model.Problem_Administrator;
+import mk.ukim.finki.localfix.model.*;
 import mk.ukim.finki.localfix.model.enums.Impact;
 import mk.ukim.finki.localfix.model.enums.Status;
 import mk.ukim.finki.localfix.service.*;
@@ -13,11 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+
 
 @Controller
 public class AdministratorController {
@@ -28,29 +27,44 @@ public class AdministratorController {
     private final InstitutionService institutionService;
     private final PersonService personService;
 
+    private final CityService cityService;
+
     public AdministratorController(ProblemService problemService,
                                    AdministratorService administratorService,
                                    ProblemAdministratorService problemAdministratorService,
-                                   InstitutionService institutionService, PersonService personService) {
+                                   InstitutionService institutionService, PersonService personService,
+                                   CityService cityService) {
         this.problemService = problemService;
         this.administratorService = administratorService;
         this.problemAdministratorService = problemAdministratorService;
         this.institutionService = institutionService;
         this.personService = personService;
+        this.cityService = cityService;
     }
 
     /*lists all reported problems by all users */
     @GetMapping("/problems/administrator")
-    public String listAllProblemsForAdministrator(Model model, HttpServletRequest request){
+    public String listAllProblemsForAdministrator(Model model, @RequestParam(required = false) Long cityId ,
+    HttpServletRequest request){
 
-        List<Problem> allProblems = this.problemService.listAllProblems();
-        model.addAttribute("problems",allProblems);
+        List<Problem> problemList;
+//
         String username = request.getRemoteUser();
         model.addAttribute("person", username);
         Person loggedPerson = personService.findByUsername(username);
         Administrator administrator = this.administratorService.findByPerson(loggedPerson);
         model.addAttribute("administrator",administrator);
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+        List<City> cityList = this.cityService.listAllCities();
+
+        if (cityId == null){
+            problemList = this.problemService.listAllProblems();
+        }
+        else {
+            problemList = this.problemService.listAllProblemsByCityIdAndStatus(cityId,null,null);
+        }
+
+
 
         if (inputFlashMap != null){
 
@@ -77,6 +91,10 @@ public class AdministratorController {
                 }
             }
         }
+
+        model.addAttribute("cities",cityList);
+        model.addAttribute("problems",problemList);
+
         return "list-problems";
     }
 

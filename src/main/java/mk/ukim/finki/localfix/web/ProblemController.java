@@ -210,7 +210,7 @@ public class ProblemController {
                                 @RequestParam String description,
                                 @RequestParam Status status,
                                 @RequestParam Impact impact,
-                                @RequestParam Long institutionId, RedirectAttributes redirectAttributes) {
+                                @RequestParam Long institutionId) {
 
 
         /*double fileSizeInMegabytes = (double) file.getSize() / (1024 * 1024);

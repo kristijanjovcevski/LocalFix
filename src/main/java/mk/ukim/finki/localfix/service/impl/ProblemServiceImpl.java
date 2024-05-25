@@ -89,7 +89,7 @@ public class ProblemServiceImpl implements ProblemService {
         Institution institution = this.institutionRepository.findById(institutionId).orElseThrow(() ->
                 new InstitutionNotFoundException(institutionId));
 
-        //City city = this.cityRepository.findById(cityId).orElseThrow(() -> new CityNotFoundException(cityId));
+
 
         Problem problem = this.findProblemById(id);
         problem.setTitle(title);
@@ -100,7 +100,7 @@ public class ProblemServiceImpl implements ProblemService {
         problem.setImpact(impact);
 
         problem.setInstitution(institution);
-        //problem.setCity(city);
+
 
         return Optional.of(this.problemRepository.save(problem));
 
@@ -116,10 +116,16 @@ public class ProblemServiceImpl implements ProblemService {
     @Transactional
     @Override
     public List<Problem> listAllProblemsByCityIdAndStatus(Long id,Status status, User user) {
+
         if (id != null && status != null){
             return this.problemRepository.findAllByCityIdAndStatusAndReportedBy(id,status, user);
         }
-        return this.problemRepository.findAllByStatusAndReportedBy(status, user);
+        else if (id != null && user == null){
+            return this.problemRepository.findAllByCityId(id);
+        }
+
+        return this.problemRepository.findAllByStatusAndReportedBy(status,user);
+
     }
 
     @Override
