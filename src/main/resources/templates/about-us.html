@@ -16,6 +16,18 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/about-us.css}">
     <link rel="stylesheet" th:href="@{/css/header-footer.css}">
+    <style>
+        .btn-black{
+            max-width: 300px;
+            width: 100%;
+            background-color: black;
+            color: white;
+        }
+        .btn-black:hover {
+            color: #fff;
+            background-color: #333;
+        }
+    </style>
 </head>
 <body>
 <header class="header">
@@ -65,6 +77,8 @@
             <div class="col text-center">
                 <h4>Connecting people, Solving problems</h4>
                 <p class="about-us-p text-justify">Our mission is to empower citizens of Macedonia by providing a platform to report and resolve local issues. Our system is designed to enhance transparency, ensure ease of use, and manage user data efficiently. By facilitating communication between the community and local authorities, we aim to foster a collaborative environment where problems are addressed promptly and effectively. Our goal is to make Macedonia a better place to live, one solution at a time.</p>
+
+                <a href="/problems" class="btn btn-block btn-black">View City Issues Here</a>
             </div>
         </div>
     </div>
