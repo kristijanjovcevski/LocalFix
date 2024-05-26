@@ -1,0 +1,15 @@
+.btn-black{
+    background-color: #000000;
+    color: #ffffff;
+    max-width: 300px;
+    width: 100%;
+}
+.custom-card-width{
+    max-width: 700px;
+    margin: auto;
+    width: 100%;
+}
+.full-height{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
