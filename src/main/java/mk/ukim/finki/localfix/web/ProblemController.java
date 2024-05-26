@@ -4,7 +4,6 @@ import mk.ukim.finki.localfix.model.*;
 import mk.ukim.finki.localfix.model.enums.Impact;
 import mk.ukim.finki.localfix.model.enums.Role;
 import mk.ukim.finki.localfix.model.enums.Status;
-import mk.ukim.finki.localfix.repository.ProblemAdministratorRepository;
 import mk.ukim.finki.localfix.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +33,7 @@ public class ProblemController {
     private final InstitutionService institutionService;
     private final UserService userService;
     private final CityService cityService;
-    private final ProblemAdministratorRepository problemAdministratorRepository;
+    private final ProblemAdministratorService problemAdministratorService;
     private final PersonService personService;
 
 
@@ -42,14 +41,14 @@ public class ProblemController {
                              InstitutionService institutionService,
                              UserService userService,
                              CityService cityService,
-                             ProblemAdministratorRepository problemAdministratorRepository,
+                             ProblemAdministratorService problemAdministratorService,
                              PersonService personService) {
 
         this.problemService = problemService;
         this.institutionService = institutionService;
         this.userService = userService;
         this.cityService = cityService;
-        this.problemAdministratorRepository = problemAdministratorRepository;
+        this.problemAdministratorService = problemAdministratorService;
         this.personService = personService;
     }
 
@@ -72,12 +71,12 @@ public class ProblemController {
              //reportedBy = this.userService.findUserByPerson(loggedPerson);
 
             if (reportedBy != null) {
-                problemList = problemService.listAllProblemsByCityIdAndStatus(null, Status.SOLVED, reportedBy);
+                problemList = this.problemService.listAllProblemsByCityIdAndStatus(null,null,reportedBy);
             }
             else {
                 // listing all problems published by administrators
                 List<Problem_Administrator> problemAdministratorList= 
-                        this.problemAdministratorRepository.findAll();
+                        this.problemAdministratorService.listAllProblemAdministrators();
                 for (Problem_Administrator p : problemAdministratorList){
                     if (p != null) {
                         Problem problem = this.problemService
@@ -93,7 +92,11 @@ public class ProblemController {
 
         else{
             //reportedBy = this.userService.findUserById(1L);
-            problemList = this.problemService.listAllProblemsByCityIdAndStatus(cityId,Status.SOLVED, reportedBy) ;
+            problemList = this.problemAdministratorService
+                    .listAllProblemAdministratorsByCityIdAndStatus(cityId,Status.SOLVED,reportedBy)
+                    .stream()
+                    .map(l -> this.problemService.findProblemById(l.getProblem().getId()))
+                    .toList();
         }
         model.addAttribute("person", username);
         model.addAttribute("reportedBy",reportedBy);

@@ -276,7 +276,21 @@
             <div class="col-md-12">
                 <div class="button_container">
                     <a class="add_button" style="text-decoration: none; color: white" th:if="${reportedBy != null}" th:href="@{/problem/add}">Create problem</a>
-                    <form action="/problems" method="get">
+                    <form th:if="${reportedBy != null}" action="/problems" method="get">
+                        <label> List problems by city: &nbsp &nbsp;
+                            <select name="cityId">
+                                <option value="">--</option>
+                                <option th:each="city: ${cities}"
+                                        th:value="${city.id}"
+                                        th:text="${city.name}"
+                                        th:selected="${param.cityId != null && #strings.equals(#request.getParameter('cityId'), #strings.toString(city.id))}"
+                                ></option>
+                            </select>
+                        </label>
+                        <button class="search_button" type="submit">Find</button>
+                    </form>
+
+                    <form th:unless="${reportedBy != null}" action="/problems/administrator" method="get">
                         <label> List problems by city: &nbsp &nbsp;
                             <select name="cityId">
                                 <option value="">--</option>

@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 
 import mk.ukim.finki.localfix.model.Problem;
 import mk.ukim.finki.localfix.model.Problem_Administrator;
+import mk.ukim.finki.localfix.model.User;
 import mk.ukim.finki.localfix.model.enums.Status;
 import mk.ukim.finki.localfix.repository.ProblemAdministratorRepository;
 import mk.ukim.finki.localfix.repository.ProblemRepository;
@@ -51,5 +52,15 @@ public class ProblemAdministratorServiceImpl implements ProblemAdministratorServ
             );
         }
         return null;
+    }
+
+    @Transactional
+    @Override
+    public List<Problem_Administrator> listAllProblemAdministratorsByCityIdAndStatus(Long cityId, Status status, User user) {
+        if (cityId != null && status != null)
+            return this.problemAdministratorRepository.findAllByProblem_City_IdAndProblem_Status
+                    (cityId, status);
+
+        return this.problemAdministratorRepository.findAllByProblem_ReportedBy(user);
     }
 }

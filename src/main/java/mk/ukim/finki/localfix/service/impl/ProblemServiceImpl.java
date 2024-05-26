@@ -124,7 +124,7 @@ public class ProblemServiceImpl implements ProblemService {
             return this.problemRepository.findAllByCityId(id);
         }
 
-        return this.problemRepository.findAllByStatusAndReportedBy(status,user);
+        return this.problemRepository.findAllByReportedBy(user);
 
     }
 

@@ -13,7 +13,7 @@ public interface ProblemRepository extends JpaRepository<Problem,Long> {
 
     List<Problem> findAllByCityIdAndStatusAndReportedBy(Long cityId, Status status, User user);
 
-    List<Problem> findAllByStatusAndReportedBy(Status status, User user);
+    List<Problem> findAllByReportedBy(User user);
 
     List<Problem> findAllByCityId(Long cityId);
 }
