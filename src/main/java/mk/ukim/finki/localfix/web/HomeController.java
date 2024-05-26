@@ -11,11 +11,6 @@ import javax.servlet.http.*;
 @Controller
 @RequestMapping("/")
 public class HomeController {
-    private final UserService userService;
-
-    public HomeController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping
     public String Home(Model model, HttpServletRequest request){
