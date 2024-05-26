@@ -442,11 +442,11 @@ input.input100 {
 .input-checkbox100:checked + .label-checkbox100::before {
   color: #000000;
 }
-.footer{
-  background-color: black;
-  text-align: center;
-  font-family: 'Montserrat', sans-serif;
-}
+/*.footer{*/
+/*  background-color: black;*/
+/*  text-align: center;*/
+/*  font-family: 'Montserrat', sans-serif;*/
+/*}*/
 .nesto{
   font-family: 'Montserrat', sans-serif;
   color: white;
