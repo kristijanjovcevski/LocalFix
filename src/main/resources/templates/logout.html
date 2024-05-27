@@ -15,6 +15,14 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/header-footer.css}">
+    <style>
+        .btn-center {
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+    </style>
 </head>
 <body>
 <header class="header">
@@ -55,13 +63,13 @@
 
     </div>
 </header>
-<div class="container full-height justify-content-center">
+<div class="container full-height justify-content-center mt-4">
     <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-lg-8 col-xl-8">
             <div class="card custom-card-width">
                 <div class="card-header">
                     <h4 class="text-center">You need to logout first</h4>
-                    <a class="btn text-center" href="/person/logout">Logout</a>
+                    <a class="btn btn-center" href="/person/logout">Logout</a>
                 </div>
             </div>
         </div>
