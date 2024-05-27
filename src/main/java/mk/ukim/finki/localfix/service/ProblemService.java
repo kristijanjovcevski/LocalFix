@@ -1,7 +1,6 @@
 package mk.ukim.finki.localfix.service;
 
 
-import mk.ukim.finki.localfix.model.City;
 import mk.ukim.finki.localfix.model.Problem;
 
 import mk.ukim.finki.localfix.model.User;
@@ -25,9 +24,9 @@ public interface ProblemService {
 
     /* reportedBy user atributot nema da moze da se menuva toj avtomatski dodeluva pri kreiranje na problemot
     od strana na najaveniot korisnik */
-    Optional<Problem> editProblem(Long id,String title,String address,byte [] photo, String description, Status status,
+    Optional<Problem> editProblem(Long id, String title, String address, byte[] photo, String description, Status status,
                                   Impact impact,
-                                  Long institutionId);
+                                  Long institutionId, Long city);
 
 
     void deleteProblemById(Long id);

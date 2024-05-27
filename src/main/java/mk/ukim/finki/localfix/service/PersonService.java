@@ -10,4 +10,8 @@ public interface PersonService extends UserDetailsService {
     Person login(String email, String password);
 
     Person findByUsername(String username);
+
+    Person changePass(String username, String newPass, String confirmPass);
+
+    void deleteProfile(String username);
 }

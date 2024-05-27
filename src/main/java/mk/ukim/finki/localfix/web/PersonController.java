@@ -61,6 +61,7 @@ public class PersonController {
     public String getLoginPage(@RequestParam(required = false) String error, Model model, HttpServletRequest request) {
         String username = request.getRemoteUser();
         if(username != null){
+            model.addAttribute("person",username);
             return "logout";
         }
         if(error != null && !error.isEmpty()) {

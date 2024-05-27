@@ -55,7 +55,9 @@ public class ProblemController {
 
     /*ListProblems - ALL or By User, pagination*/
     @GetMapping("/problems")
-    public String listProblemsPage(Model model, @RequestParam(required = false) Long cityId, HttpServletRequest request){
+    public String listProblemsPage(Model model, @RequestParam(required = false) Long cityId,
+                                   @RequestParam(required = false) Status status,
+                                   HttpServletRequest request){
 
         List<Problem> problemList = new ArrayList<>();
         List<City> cityList = this.cityService.listAllCities();
@@ -67,10 +69,12 @@ public class ProblemController {
         }
         User reportedBy = this.userService.findUserByPerson(loggedPerson);
 
-        if (cityId == null) {
+        /*if (cityId == null) {
              //reportedBy = this.userService.findUserByPerson(loggedPerson);
 
-            if (reportedBy != null) {
+            if (reportedBy != null && status != null) {
+                problemList = this.problemService.listAllProblemsByCityIdAndStatus(null,status,reportedBy);
+            }else if (reportedBy != null){
                 problemList = this.problemService.listAllProblemsByCityIdAndStatus(null,null,reportedBy);
             }
             else {
@@ -86,23 +90,28 @@ public class ProblemController {
                     }
                 }
             }
-        }
+        }*/
 
         /*Filters - Examples(City, Status)*/
 
-        else{
+        /*else{
             //reportedBy = this.userService.findUserById(1L);
             problemList = this.problemAdministratorService
-                    .listAllProblemAdministratorsByCityIdAndStatus(cityId,Status.SOLVED,reportedBy)
+                    .listAllProblemAdministratorsByCityIdAndStatus(cityId,status,reportedBy)
                     .stream()
                     .map(l -> this.problemService.findProblemById(l.getProblem().getId()))
                     .toList();
-        }
+        }*/
+        problemList = this.problemAdministratorService
+                .listAllProblemAdministratorsByCityIdAndStatus(cityId,status,reportedBy)
+                .stream()
+                .map(l -> this.problemService.findProblemById(l.getProblem().getId()))
+                .toList();
         model.addAttribute("person", username);
         model.addAttribute("reportedBy",reportedBy);
         model.addAttribute("problems", problemList);
         model.addAttribute("cities", cityList);
-
+        model.addAttribute("statuses", Status.values());
         return "list-problems";
     }
 
@@ -213,7 +222,8 @@ public class ProblemController {
                                 @RequestParam String description,
                                 @RequestParam Status status,
                                 @RequestParam Impact impact,
-                                @RequestParam Long institutionId) {
+                                @RequestParam Long institutionId,
+                                @RequestParam Long cityId) {
 
 
         /*double fileSizeInMegabytes = (double) file.getSize() / (1024 * 1024);
@@ -243,7 +253,7 @@ public class ProblemController {
 
         byte [] photo = this.problemService.readImageBytes(file);*/
 
-        this.problemService.editProblem(id,title,address,null,description,status,impact,institutionId);
+        this.problemService.editProblem(id,title,address,null,description,status,impact,institutionId, cityId);
 
         return "redirect:/problems";
 

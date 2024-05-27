@@ -277,13 +277,21 @@
                 <div class="button_container">
                     <a class="add_button" style="text-decoration: none; color: white" th:if="${reportedBy != null}" th:href="@{/problem/add}">Create problem</a>
                     <form th:if="${reportedBy != null}" action="/problems" method="get">
-                        <label> List problems by city: &nbsp &nbsp;
+                        <label> List problems by city and status: &nbsp &nbsp;
                             <select name="cityId">
                                 <option value="">--</option>
                                 <option th:each="city: ${cities}"
                                         th:value="${city.id}"
                                         th:text="${city.name}"
                                         th:selected="${param.cityId != null && #strings.equals(#request.getParameter('cityId'), #strings.toString(city.id))}"
+                                ></option>
+                            </select>
+                            <select name="status">
+                                <option value="">--</option>
+                                <option th:each="status: ${statuses}"
+                                        th:value="${status}"
+                                        th:text="${status}"
+                                        th:selected="${status != null && #strings.equals(#request.getParameter('status'), #strings.toString(status))}"
                                 ></option>
                             </select>
                         </label>
@@ -300,6 +308,14 @@
                                         th:selected="${param.cityId != null && #strings.equals(#request.getParameter('cityId'), #strings.toString(city.id))}"
                                 ></option>
                             </select>
+                            <select name="status">
+                                <option value="">--</option>
+                                <option th:each="status: ${statuses}"
+                                        th:value="${status}"
+                                        th:text="${status}"
+                                        th:selected="${status != null && #strings.equals(#request.getParameter('status'), #strings.toString(status))}"
+                                ></option>
+                            </select>
                         </label>
                         <button class="search_button" type="submit">Find</button>
                     </form>
@@ -308,7 +324,8 @@
                 <th:block th:each="problem : ${problems}">
                     <div class="problem_list">
                         <div class="problem_item">
-                            <span th:text="${problem.title}"></span>
+                            <span th:if="${problem?.status != null}" th:text="${problem.title} + ' (' + ${problem.status} + ')'"></span>
+                            <span th:if="${problem?.status == null}" th:text="${problem.title} + ' (--)'"></span>
                             <a th:href="@{'/problem/detailed/view/{id}' (id=${problem.getId()})}">View Details</a>
                             <div th:if="${administrator} != null">
                                 <span><a th:href="@{'/problem/administrator/edit/{id}' (id=${problem.getId()})}">Edit and set status to a problem</a></span>

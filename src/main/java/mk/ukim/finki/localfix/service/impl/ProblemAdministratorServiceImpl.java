@@ -57,9 +57,24 @@ public class ProblemAdministratorServiceImpl implements ProblemAdministratorServ
     @Transactional
     @Override
     public List<Problem_Administrator> listAllProblemAdministratorsByCityIdAndStatus(Long cityId, Status status, User user) {
+        if (cityId != null && status != null && user != null)
+            return this.problemAdministratorRepository.findAllByProblem_City_IdAndProblem_StatusAndProblem_ReportedBy
+                    (cityId, status, user);
         if (cityId != null && status != null)
             return this.problemAdministratorRepository.findAllByProblem_City_IdAndProblem_Status
                     (cityId, status);
+        if (cityId != null && user != null)
+            return this.problemAdministratorRepository.findAllByProblem_City_IdAndProblem_ReportedBy
+                    (cityId, user);
+        if (status != null && user != null)
+            return this.problemAdministratorRepository.findAllByProblem_StatusAndProblem_ReportedBy
+                    (status, user);
+        if (cityId != null)
+            return this.problemAdministratorRepository.findAllByProblem_City_Id
+                    (cityId);
+        if (status != null)
+            return this.problemAdministratorRepository.findAllByProblem_Status
+                    (status);
 
         return this.problemAdministratorRepository.findAllByProblem_ReportedBy(user);
     }

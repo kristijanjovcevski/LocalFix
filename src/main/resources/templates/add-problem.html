@@ -63,7 +63,7 @@
 
     <form method="POST" th:if="${problem != null}" th:action="@{'/problem/add/{id}' (id=${problem?.getId()})}"  enctype="multipart/form-data">
 
-       <label> Name: <br>
+       <!--<label> Name: <br>
            <input type="text" name="title" th:value="${problem?.title}" required>
        </label> <br>
 
@@ -103,9 +103,88 @@
             </label> <br>
         </div>
 
-        <button type="submit">Save</button>
+        <button type="submit">Save</button>-->
+        <div class="container full-height justify-content-center" sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8 col-xl-8">
+                    <div class="card custom-card-width">
+                        <div class="card-header">
+                            <h4 class="text-center">Tell Us About a City Issue</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <img  th:src="@{/images/icons/logo.png}" alt="Logo" style="height: 30px;">
+                            </div>
+                                <div class="form-group">
+                                    <label> Name </label>
+                                    <input class="form-control" type="text" name="title" th:value="${problem?.title}" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label >Address </label>
+                                    <input  class="form-control" type="text" name="address" th:value="${problem?.address}" required>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label > Choose institution </label>
+                                    <select name="institutionId"  class="form-control">
+                                        <option th:each="institution : ${institutions} " th:value="${institution.getId()}"
+                                                th:selected="${institution.getId() == institution.id}"
+                                                th:text="${institution.getName()}"
+                                        ></option>
+                                    </select>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label > Description</label>
+                                    <textarea class="form-control" rows="3"  name="description" th:value="${problem?.description}" th:text="${problem?.description}" required></textarea>
+
+                                </div>
+
+                                <label> Status: <br>
+                                    <select name="status" required>
+                                        <option th:each="status : ${status}" th:value="${status}"
+                                                th:text="${status}" th:selected="${status} == ${problem.status}"></option>
+                                    </select>
+                                </label> <br>
+                                    <div class="form-group">
+                                        <label> Impact: <br>
+                                            <select name="impact" required>
+                                                <option th:each="impact : ${impact}" th:value="${impact}"
+                                                        th:text="${impact}" th:selected="${impact} == ${problem.impact}"></option>
+                                            </select>
+
+                                        </label> <br>
+
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label > City</label>
+                                        <select name="cityId" class="form-control" required>
+                                            <option th:each="city : ${cities}"
+                                                    th:value="${city.id}"
+                                                    th:text="${city.name}"
+                                                    th:selected="${city} == ${problem.city}"
+                                            ></option>
+                                        </select>
+                                    </div>
+
+                                <div>
+
+                                </div>
+                                <div class="d-flex justify-content-center mt-4">
+                                    <button type="submit" class="btn btn-block btn-black">Save</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 
+    <div th:if="${problem == null}" sec:authorize="hasRole('ROLE_USER')">
     <div class="container full-height justify-content-center">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8 col-xl-8">
@@ -191,6 +270,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <footer>

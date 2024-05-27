@@ -16,4 +16,14 @@ public interface ProblemRepository extends JpaRepository<Problem,Long> {
     List<Problem> findAllByReportedBy(User user);
 
     List<Problem> findAllByCityId(Long cityId);
+
+    List<Problem> findAllByStatus(Status status);
+
+    List<Problem> findAllByCityIdAndStatus(Long cityId, Status status);
+
+    List<Problem> findAllByCityIdAndReportedBy(Long cityId, User user);
+
+    List<Problem> findAllByStatusAndReportedBy(Status status, User user);
+
+    void deleteAllByReportedBy(User user);
 }

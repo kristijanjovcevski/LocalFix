@@ -19,7 +19,15 @@ public interface ProblemAdministratorRepository extends JpaRepository<Problem_Ad
 
     List<Problem_Administrator> findAllByProblem_City_IdAndProblem_Status(Long cityId, Status status);
 
+    List<Problem_Administrator> findAllByProblem_City_IdAndProblem_StatusAndProblem_ReportedBy(Long cityId, Status status, User user);
 
+    List<Problem_Administrator> findAllByProblem_City_IdAndProblem_ReportedBy(Long cityId, User user);
+
+    List<Problem_Administrator> findAllByProblem_StatusAndProblem_ReportedBy(Status status, User user);
+
+    List<Problem_Administrator> findAllByProblem_City_Id(Long cityId);
+
+    List<Problem_Administrator> findAllByProblem_Status(Status status);
 
     List<Problem_Administrator> findAllByProblem_ReportedBy(User reportedBy);
 

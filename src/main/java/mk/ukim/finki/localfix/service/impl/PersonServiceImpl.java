@@ -8,6 +8,7 @@ import mk.ukim.finki.localfix.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.localfix.model.exceptions.PasswordsDoNotMatchException;
 import mk.ukim.finki.localfix.model.exceptions.UsernameAlreadyExistsException;
 import mk.ukim.finki.localfix.repository.PersonRepository;
+import mk.ukim.finki.localfix.repository.ProblemRepository;
 import mk.ukim.finki.localfix.repository.UserRepository;
 import mk.ukim.finki.localfix.service.PersonService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,16 +16,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
     private final UserRepository userRepository;
+    private final ProblemRepository problemRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public PersonServiceImpl(PersonRepository personRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public PersonServiceImpl(PersonRepository personRepository, UserRepository userRepository, ProblemRepository problemRepository, PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;
         this.userRepository = userRepository;
+        this.problemRepository = problemRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -63,5 +68,33 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findByUsername(String username) {
         return personRepository.findByUsername(username).orElseThrow(null);
+    }
+
+    @Override
+    public Person changePass(String username, String newPass, String confirmPass) {
+        Person person = findByUsername(username);
+        if(person != null){
+            if(newPass.equals(confirmPass)){
+                person.setPassword(passwordEncoder.encode(newPass));
+                personRepository.save(person);
+            }else {
+                throw new PasswordsDoNotMatchException();
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    @Override
+    public void deleteProfile(String username) {
+        Person person = findByUsername(username);
+        if(person.getRole().equals(Role.ROLE_USER)) {
+            User user = userRepository.findById(person.getId()).orElse(null);
+            if (user != null) {
+                problemRepository.deleteAllByReportedBy(user);
+                userRepository.delete(user);
+                personRepository.delete(person);
+            }
+        }
     }
 }

@@ -79,15 +79,18 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Transactional
     @Override
-    public Optional<Problem> editProblem(Long id,String title,
+    public Optional<Problem> editProblem(Long id, String title,
                                          String address,
-                                         byte [] photo,
+                                         byte[] photo,
                                          String description, Status status,
                                          Impact impact,
-                                         Long institutionId) {
+                                         Long institutionId,
+                                         Long cityId) {
 
         Institution institution = this.institutionRepository.findById(institutionId).orElseThrow(() ->
                 new InstitutionNotFoundException(institutionId));
+        City city = this.cityRepository.findById(cityId).orElseThrow(() ->
+                new CityNotFoundException(cityId));
 
 
 
@@ -100,7 +103,7 @@ public class ProblemServiceImpl implements ProblemService {
         problem.setImpact(impact);
 
         problem.setInstitution(institution);
-
+        problem.setCity(city);
 
         return Optional.of(this.problemRepository.save(problem));
 
@@ -117,15 +120,20 @@ public class ProblemServiceImpl implements ProblemService {
     @Override
     public List<Problem> listAllProblemsByCityIdAndStatus(Long id,Status status, User user) {
 
-        if (id != null && status != null){
+        if (id != null && status != null && user != null){
             return this.problemRepository.findAllByCityIdAndStatusAndReportedBy(id,status, user);
-        }
-        else if (id != null && user == null){
+        } else if(id != null && status != null){
+            return this.problemRepository.findAllByCityIdAndStatus(id, status);
+        } else if (id != null && user == null){
             return this.problemRepository.findAllByCityId(id);
+        }else if(status != null && user == null){
+            return this.problemRepository.findAllByStatus(status);
+        } else if(id != null){
+            return this.problemRepository.findAllByCityIdAndReportedBy(id, user);
+        }else if(status != null){
+            return this.problemRepository.findAllByStatusAndReportedBy(status, user);
         }
-
         return this.problemRepository.findAllByReportedBy(user);
-
     }
 
     @Override

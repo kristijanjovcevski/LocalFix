@@ -44,8 +44,10 @@ public class AdministratorController {
 
     /*lists all reported problems by all users */
     @GetMapping("/problems/administrator")
-    public String listAllProblemsForAdministrator(Model model, @RequestParam(required = false) Long cityId ,
-    HttpServletRequest request){
+    public String listAllProblemsForAdministrator(Model model,
+                                                  @RequestParam(required = false) Long cityId ,
+                                                  @RequestParam(required = false) Status status,
+                                                    HttpServletRequest request){
 
         List<Problem> problemList;
 //
@@ -57,13 +59,12 @@ public class AdministratorController {
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
         List<City> cityList = this.cityService.listAllCities();
 
-        if (cityId == null){
+        if (cityId == null && status == null){
             problemList = this.problemService.listAllProblems();
         }
         else {
-            problemList = this.problemService.listAllProblemsByCityIdAndStatus(cityId,null,null);
+            problemList = this.problemService.listAllProblemsByCityIdAndStatus(cityId,status,null);
         }
-
 
 
         if (inputFlashMap != null){
@@ -94,7 +95,7 @@ public class AdministratorController {
 
         model.addAttribute("cities",cityList);
         model.addAttribute("problems",problemList);
-
+        model.addAttribute("statuses", Status.values());
         return "list-problems";
     }
 
@@ -165,6 +166,7 @@ public class AdministratorController {
             model.addAttribute("problem", problem);
             model.addAttribute("institutions", this.institutionService.listAllInstitutions());
             model.addAttribute("administrator",administrator);
+            model.addAttribute("cities", cityService.listAllCities());
         }
         else{
             //model.addAttribute("problemNotPublished","publish the problem first before editing");
