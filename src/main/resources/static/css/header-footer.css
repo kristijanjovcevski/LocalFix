@@ -1,5 +1,4 @@
 .navbar-nav .nav-item {
-    /*margin-right: 50px;*/
     margin-left: 50px;
 }
 .navbar,
@@ -8,7 +7,9 @@
     padding-right: 0 !important;
 }
 
-
+.header{
+    background-color: white;
+}
 .header::after {
     content: '';
     display: block;
@@ -25,5 +26,10 @@ footer {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
+}
+body{
     font-family: "Poppins", sans-serif;
+}
+.nav-item {
+    min-width: 40px; /* Adjust this based on the widest content */ !important;
 }
