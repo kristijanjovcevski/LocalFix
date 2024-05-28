@@ -17,15 +17,40 @@
     <link rel="stylesheet" th:href="@{/css/about-us.css}">
     <link rel="stylesheet" th:href="@{/css/header-footer.css}">
     <style>
-        .btn-black{
+        .btn-black {
             max-width: 300px;
             width: 100%;
+            border: none;
+            transition: background-color 0.3s ease;
             background-color: black;
             color: white;
         }
         .btn-black:hover {
-            color: #fff;
-            background-color: #333;
+            background-color: #333; /* slightly lighter black */
+            color: white;
+        }
+        .feature {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .feature h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .feature p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
         }
     </style>
 </head>
@@ -68,25 +93,33 @@
 
     </div>
 </header>
-<div class="container">
-    <div class="about-us">
-        <div class="row align-items-center">
-            <div class="col">
-                <img th:src="@{/images/Group.png}" class="img-fluid" alt="LocalFix Image">
-            </div>
-            <div class="col text-center">
-                <h4>Connecting people, Solving problems</h4>
-                <p class="about-us-p text-justify">Our mission is to empower citizens of Macedonia by providing a platform to report and resolve local issues. Our system is designed to enhance transparency, ensure ease of use, and manage user data efficiently. By facilitating communication between the community and local authorities, we aim to foster a collaborative environment where problems are addressed promptly and effectively. Our goal is to make Macedonia a better place to live, one solution at a time.</p>
+<section class="jumbotron text-center">
+    <div class="container">
+        <img th:src="@{/images/icons/logo-full.svg}"alt="City Issues Logo" class="mb-4">
+        <h1 class="display-4">Welcome to LocalFix</h1>
+        <p class="lead">Your platform for reporting local issues and making your city a better place to be in.</p>
+        <a class="btn btn-black btn-lg" th:href="@{/problem/add}" role="button">Report an Issue Here</a>
+    </div>
+</section>
 
-                <a href="/problems" class="btn btn-block btn-black">View City Issues Here</a>
-            </div>
+<section class="container">
+    <div class="row">
+        <div class="col-md-4 feature">
+            <h2>Easy Reporting</h2>
+            <p>Report local issues with just a few clicks. Our platform makes it easy for you to submit your concerns.</p>
+        </div>
+        <div class="col-md-4 feature">
+            <h2>Community Engagement</h2>
+            <p>Join a community of citizens dedicated to improving their city. Your voice matters!</p>
+        </div>
+        <div class="col-md-4 feature">
+            <h2>Positive Impact</h2>
+            <p>See real results as local authorities take action based on your reports. Together, we can make a difference.</p>
         </div>
     </div>
-</div>
+</section>
 <footer>
     LocalFix 2024 &copy;
 </footer>
-
-
 </body>
 </html>
