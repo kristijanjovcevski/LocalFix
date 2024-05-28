@@ -48,9 +48,23 @@
             color: #666;
         }
         body {
-            font-family: "Poppins", sans-serif;
+            font-family: "Poppins", sans-serif; !important;
             background-color: #f8f9fa;
             color: #333;
+        }
+        .nav-item{
+            letter-spacing: 0.05rem;
+            font-family: "Poppins", sans-serif;
+        }
+        .btn span{
+            letter-spacing: 0.05rem;
+            /*margin-left: 15px;*/
+        }
+        .header .container{
+            padding: 0; !important;
+        }
+        .navbar-nav{
+            margin-left: 20px;!important;
         }
     </style>
 </head>
@@ -78,13 +92,13 @@
                 </div>
                 <form class="d-flex" action="/person/logout" sec:authorize="isAuthenticated()">
                     <button class="btn" type="submit" style="background: white">
-                        Sign out
+                        <span>Sign out</span>
                         <img th:src="@{/images/icons/box-arrow-right.png}" alt="Sign Out" style="height: 24px;">
                     </button>
                 </form>
                 <form class="d-flex" action="/person/login" sec:authorize="!isAuthenticated()">
                     <button class="btn" type="submit" style="background: white">
-                        Sign in
+                        <span>Sign in</span>
                         <img th:src="@{/images/icons/box-arrow-right.png}" alt="Sign In" style="height: 24px;">
                     </button>
                 </form>

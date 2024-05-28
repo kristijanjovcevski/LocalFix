@@ -16,6 +16,20 @@
           crossorigin="anonymous"></script>
   <link rel="stylesheet" th:href="@{/css/header-footer.css}">
   <style>
+    .nav-item{
+      letter-spacing: 0.05rem;
+      font-family: "Poppins", sans-serif;
+    }
+    .btn span{
+      letter-spacing: 0.05rem;
+      margin-left: 5px;
+    }
+    .header .container{
+      padding: 0; !important;
+    }
+    .navbar-nav{
+      margin-left: 20px;!important;
+    }
   .btn-black{
     background-color: #000000;
     color: #ffffff;
@@ -59,14 +73,14 @@
           </ul>
         </div>
         <form class="d-flex" action="/person/logout" sec:authorize="isAuthenticated()">
-          <button class="btn" type="submit" style="background: white">
-            Sign out
+          <button class="btn btn-sign-out" type="submit" style="background: white">
+            <span>Sign out</span>
             <img th:src="@{/images/icons/box-arrow-right.png}" alt="Sign Out" style="height: 24px;">
           </button>
         </form>
         <form class="d-flex" action="/person/login" sec:authorize="!isAuthenticated()">
-          <button class="btn" type="submit" style="background: white">
-            Sign in
+          <button class="btn btn-sign-out" type="submit" style="background: white">
+            <span>Sign in</span>
             <img th:src="@{/images/icons/box-arrow-right.png}" alt="Sign In" style="height: 24px;">
           </button>
         </form>

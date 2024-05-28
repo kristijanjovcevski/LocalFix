@@ -34,6 +34,23 @@
             background-color: #343a40;
             padding: 10px 0;
         }
+        .nav-item{
+            font-family: "Arial", sans-serif; !important;
+            letter-spacing: 0.05rem;
+        }
+        .btn-sign-in span{
+            font-family: "Arial", sans-serif; !important;
+            letter-spacing: 0.05rem;
+        }
+        .btn-sign-out span{
+            font-family: "Arial", sans-serif; !important;
+            letter-spacing: 0.05rem;
+        }
+        .header .container{
+            padding: 0; !important;
+            padding-left: 8px;
+            padding-right: 20px;
+        }
 
         /*.navbar-brand span {*/
         /*    color: #fff;*/
@@ -253,14 +270,14 @@
                     </ul>
                 </div>
                 <form class="d-flex" action="/person/logout" sec:authorize="isAuthenticated()">
-                    <button class="btn" type="submit" style="background: white">
-                        Sign out
+                    <button class="btn btn-sign-out" type="submit" style="background: white">
+                        <span>Sign out</span>
                         <img th:src="@{/images/icons/box-arrow-right.png}" alt="Sign Out" style="height: 24px;">
                     </button>
                 </form>
                 <form class="d-flex" action="/person/login" sec:authorize="!isAuthenticated()">
-                    <button class="btn" type="submit" style="background: white">
-                        Sign in
+                    <button class="btn btn-sign-in" type="submit" style="background: white">
+                        <span>Sign in</span>
                         <img th:src="@{/images/icons/box-arrow-right.png}" alt="Sign In" style="height: 24px;">
                     </button>
                 </form>
