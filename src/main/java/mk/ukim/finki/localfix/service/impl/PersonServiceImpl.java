@@ -89,7 +89,7 @@ public class PersonServiceImpl implements PersonService {
     public void deleteProfile(String username) {
         Person person = findByUsername(username);
         if(person.getRole().equals(Role.ROLE_USER)) {
-            User user = userRepository.findById(person.getId()).orElse(null);
+            User user = userRepository.findByPerson_Id(person.getId()).orElse(null);
             if (user != null) {
                 problemRepository.deleteAllByReportedBy(user);
                 userRepository.delete(user);
